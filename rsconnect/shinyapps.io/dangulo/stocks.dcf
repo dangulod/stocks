@@ -3,8 +3,8 @@ title: stocks
 account: dangulo
 server: shinyapps.io
 appId: 178692
-bundleId: 818509
+bundleId: 819699
 url: https://dangulo.shinyapps.io/stocks/
-when: 1494195742.71167
+when: 1494275819.66811
 asMultiple: FALSE
 asStatic: FALSE

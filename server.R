@@ -1,6 +1,7 @@
 library(shiny)
 library(rvest)
 library(dplyr)
+source("source/functions.R")
 
 shinyServer(function(input, output) {
 
@@ -11,8 +12,14 @@ shinyServer(function(input, output) {
     ibex_page %>% 
       html_node(xpath = '//*[@id="ctl00_Contenido_tblAcciones"]') %>% 
       html_table() %>% 
-      as.tbl()
-    
+      select(Nombre, Fecha, `Últ.`, Volumen, `% Dif.`) %>% 
+      rename(Precio = `Últ.`,
+             `+/- %` = `% Dif.`) %>% 
+      sp_to_num() %>% 
+      mutate(
+        Fecha = as.Date(Fecha, format = "%d/%m/%Y")
+      ) 
+  
   })
   
   output$ibex_table = renderDataTable({
@@ -20,8 +27,11 @@ shinyServer(function(input, output) {
     ibex()
     
   },  options = list(searching = F,
+                     dom = 't',
                      pagingType = "simple",
                      lengthMenu = 5,
                      pageLength = 15))
   
 })
+
+
